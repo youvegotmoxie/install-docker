@@ -1,0 +1,10 @@
+---
+- name: "Setup {{ docker.user }} user for Docker commands"
+  user:
+    name: "{{ docker.user }}"
+    groups: "{{ docker.groups }}"
+    append: yes
+  register: ubuntu_user
+
+- set_fact:
+    homedir: "{{ ubuntu_user.home }}"

@@ -1,0 +1,31 @@
+---
+- name: "Setup prereqs for Docker"
+  package:
+    state: latest
+    name: "{{ docker.docker_deps }}"
+
+- name: "Add package signing keys"
+  apt_key:
+    url: "{{ item }}"
+  with_items:
+    - https://download.docker.com/linux/ubuntu/gpg
+
+- name: "Add Docker repo"
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: "Install Docker packages"
+  apt:
+    pkg: "{{ docker.docker_packages }}"
+    state: latest
+    update_cache: yes
+
+- name: "Enable and start Docker"
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  notify: restart-docker
+
+- import_tasks: docker-user.yaml

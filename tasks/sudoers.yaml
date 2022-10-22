@@ -1,0 +1,8 @@
+---
+- name: "Setup sudoers"
+  copy:
+   src: sudoers-ubuntu
+   dest: /etc/sudoers.d/ubuntu
+   owner: root
+   group: root
+   mode: 0440

@@ -1,0 +1,9 @@
+ansible:
+- tasks/**/*
+- main.yaml
+- group_vars/*
+- handlers/*
+- templates/*
+- inventory
+docker:
+- templates/media-stack.yaml.j2

@@ -1,0 +1,17 @@
+---
+docker:
+  user: ubuntu
+  groups:
+  - docker
+  docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
+  docker_deps:
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - apt-utils
+

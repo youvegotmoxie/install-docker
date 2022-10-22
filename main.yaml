@@ -1,0 +1,14 @@
+---
+- name: "Install and configure Docker"
+  gather_facts: yes
+  hosts: docker
+  connection: local
+  vars_files:
+    - group_vars/all.yaml
+  tasks:
+    - assert:
+        that:
+        - "ansible_distribution == 'Ubuntu'"
+        fail_msg: "This playbook contains apt specific tasks that will not work on non-Ubuntu systems"
+    - import_tasks: tasks/base.yaml
+    - import_tasks: tasks/docker.yaml

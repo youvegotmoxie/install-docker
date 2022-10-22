@@ -1,0 +1,38 @@
+---
+- name: "Enable IP forwarding"
+  sysctl:
+   name: net.ipv4.ip_forward
+   value: 1
+   sysctl_set: yes
+   state: present
+
+- name: "Upgrade all packages"
+  apt:
+   name: "*"
+   state: latest
+   update_cache: yes
+
+- name: "Clean package cache"
+  apt:
+   autoclean: yes
+
+- name: "Remove unused packages"
+  apt:
+   autoremove: yes
+
+- name: "Ensure kernel modules are loaded"
+  blockinfile:
+   path: /etc/modules-load.d/modules.conf
+   block: |
+    nf_conntrack
+    br_netfilter
+
+- name: "Load modules"
+  modprobe:
+   name: "{{ item }}"
+   state: present
+  with_items:
+   - nf_conntrack
+   - br_netfilter
+
+- import_tasks: sudoers.yaml
